@@ -1,51 +1,71 @@
-import { useState } from "react";
+import { useFormik } from "formik";
+
+const initialValues = {
+  name: "",
+  email: "",
+  password: "",
+};
+const validate = (values) => {
+  let errors = {};
+  if (!values.name) {
+    errors.name = "نام کاربری اشتباه میباشد";
+  }
+
+  if (!values.email) {
+    errors.email = "ایمیل وارد شده اشتباه میباشد ";
+  }
+  if (!values.password) {
+    errors.password = "رمز عبور اشتباه میباشد";
+  }
+
+  return errors;
+};
+const onSubmit = (values) => {
+  console.log(values);
+};
 
 const SignUpForm = () => {
-  const [userData, setUserData] = useState({
-    name: "",
-    email: "",
-    password: "",
+  const formik = useFormik({
+    initialValues,
+    onSubmit,
+    validate, // اعتبار سنجی میکنه بر اساس اروری که نوشته میشه
   });
+  console.log(formik.errors);
 
-  const changeHandler = ({ target }) => {
-      
-    setUserData({ ...userData, [target.name]: target.value });
-  };
-  const submitHandler =(e)=>{
-e.preventDefault()
-      console.log("submitedd ...")
-  }
   return (
     <div>
-      <form onSubmit={submitHandler}>
+      <form onSubmit={formik.handleSubmit}>
         <div className="formControl">
-          <label>name</label>
+          <label>نام کاربری</label>
           <input
             type="text"
-            onChange={changeHandler}
-            value={userData.name}
+            onChange={formik.handleChange}
+            value={formik.values.name}
             name="name"
           />
+          {formik.errors.name && <div className="errors">{formik.errors.name}</div>}
         </div>
         <div className="formControl">
-          <label>email</label>
+          <label>ایمیل</label>
           <input
             type="text"
-            onChange={changeHandler}
-            value={userData.email}
+            onChange={formik.handleChange}
+            value={formik.values.email}
             name="email"
           />
+          {formik.errors.email && <div className="errors">{formik.errors.email}</div>}
         </div>
         <div className="formControl">
-          <label>password</label>
+          <label>رمز عبور</label>
           <input
             type="text"
-            onChange={changeHandler}
-            value={userData.password}
+            onChange={formik.handleChange}
+            value={formik.values.password}
             name="password"
           />
+          {formik.errors.password && <div className="errors">{formik.errors.password}</div>}
         </div>
-        <button>submit</button>
+        <button type="submit">submit</button>
       </form>
     </div>
   );
