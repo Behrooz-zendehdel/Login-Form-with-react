@@ -14,21 +14,29 @@ label {
   font-weight: 800;
   direction: rtl;
 }
+
 form {
   border: 1px solid #444;
   padding: 50px 20px;
 }
+input + label {
+  font-weight: bold;
+  display: inline-flex;
+  margin-right: 20px;
+  margin-left: 5px;
+}
 
-input {
+input[type="text"],
+input[type="email"],
+input[type="password"] {
   width: 400px;
   padding: 6px 12px;
-  display: block;
   background-color: #fff;
   color: #444;
   border: 1px solid #ccc;
   border-radius: 4px;
-  direction: rtl;
 }
+
 .formControl {
   margin-bottom: 20px;
 }
@@ -37,5 +45,4 @@ button {
 }
 .errors {
   color: red;
-  direction: rtl;
 }

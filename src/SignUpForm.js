@@ -7,6 +7,7 @@ const initialValues = {
   password: "",
   phoneNumber: "",
   passwordConformation: "",
+  gender: "0",
 };
 
 const onSubmit = (values) => {
@@ -37,6 +38,7 @@ const validationSchema = yup.object({
     .string()
     .required("وارد کردن رمز عبور الزامی میباشد")
     .oneOf([yup.ref("password"), null], "رمز عبور مطابقت نمیکند"),
+  gender: yup.string().required("جنسیت خود را مشخص کنید"),
 });
 
 const SignUpForm = () => {
@@ -52,23 +54,34 @@ const SignUpForm = () => {
     <div>
       <form onSubmit={formik.handleSubmit}>
         <div className="formControl">
-          <label>نام کاربری</label>
-          <input type="text" {...formik.getFieldProps("name")} name="name" />
+          <label htmlFor="name">نام کاربری</label>
+          <input
+            id="name"
+            type="text"
+            {...formik.getFieldProps("name")}
+            name="name"
+          />
           {formik.errors.name && formik.touched.name && (
             <div className="errors">{formik.errors.name}</div>
           )}
         </div>
         <div className="formControl">
-          <label>ایمیل</label>
-          <input type="text" {...formik.getFieldProps("email")} name="email" />
+          <label htmlFor="email">ایمیل</label>
+          <input
+            id="email"
+            type="text"
+            {...formik.getFieldProps("email")}
+            name="email"
+          />
           {formik.errors.email && formik.touched.email && (
             <div className="errors">{formik.errors.email}</div>
           )}
         </div>
 
         <div className="formControl">
-          <label>شماره همراه</label>
+          <label htmlFor="phoneNumber">شماره همراه</label>
           <input
+            id="phoneNumber"
             type="text"
             {...formik.getFieldProps("phoneNumber")}
             name="phoneNumber"
@@ -79,8 +92,9 @@ const SignUpForm = () => {
         </div>
 
         <div className="formControl">
-          <label>رمز عبور</label>
+          <label htmlFor="password">رمز عبور</label>
           <input
+            id="password"
             type="password"
             {...formik.getFieldProps("password")}
             name="password"
@@ -91,8 +105,9 @@ const SignUpForm = () => {
         </div>
 
         <div className="formControl">
-          <label>تکرار رمز عبور</label>
+          <label htmlFor="passwordConformation">تکرار رمز عبور</label>
           <input
+            id="passwordConformation"
             type="password"
             {...formik.getFieldProps("passwordConformation")}
             name="passwordConformation"
@@ -101,6 +116,26 @@ const SignUpForm = () => {
             formik.touched.passwordConformation && (
               <div className="errors">{formik.errors.passwordConformation}</div>
             )}
+        </div>
+        <div className="formControl">
+          <input
+            type="radio"
+            id="0"
+            name="gender"
+            value="0"
+            checked={formik.values.gender === "0"}
+            onChange={formik.handleChange}
+          />
+          <label htmlFor="0">مرد</label>
+          <input
+            type="radio"
+            id="1"
+            name="gender"
+            value="1"
+            checked={formik.values.gender === "1"}
+            onChange={formik.handleChange}
+          />
+          <label htmlFor="1">زن</label>
         </div>
         <button type="submit" disabled={!formik.isValid}>
           submit
