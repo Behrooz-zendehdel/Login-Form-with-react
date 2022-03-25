@@ -43,7 +43,7 @@ select {
 }
 button {
   padding: 5px 15px;
-  display: inline-block;
+  display: block;
 }
 .errors {
   color: red;

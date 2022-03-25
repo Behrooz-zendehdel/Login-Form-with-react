@@ -5,10 +5,17 @@ import * as yup from "yup";
 import Input from "./common/Input";
 import RadioInput from "./common/RadioInput";
 import SelectInput from "./common/SelectInput";
+import CheckBoxInput from "./common/CheckBoxInput";
 const RadioOptions = [
   { label: "مرد", value: "0" },
   { label: "زن", value: "1" },
 ];
+
+const checkBoxOptions = [
+  { label: "react.js", value: "react.js" },
+  { label: "veu.js", value: "veu.js" },
+];
+
 const selectOptions = [
   { label: "کشور خود را انتخاب کنید", value: "" },
   { label: "ایران", value: "IR" },
@@ -25,10 +32,15 @@ const initialValues = {
   passwordConformation: "",
   gender: "",
   nationality: "",
+  intrests: [],
+  terms: "",
 };
 
 const onSubmit = (values) => {
-  console.log(values);
+  axios.post("http://localhost:3001/users", values)
+    .then((res) => console.log(res.data))
+    .catch((err) => console.log(err));
+  // console.log(values);
 };
 
 const validationSchema = yup.object({
@@ -58,6 +70,8 @@ const validationSchema = yup.object({
     .oneOf([yup.ref("password"), null], "رمز عبور مطابقت نمیکند"),
   gender: yup.string().required("جنسیت خود را مشخص کنید"),
   nationality: yup.string().required("کشور خود را انتخاب نکرده اید"),
+  intrests: yup.array().min(1).required("حداقل یک مورد را انتخاب کنید"),
+  terms: yup.boolean().oneOf([true], "قوانین را میپذیرید"),
 });
 
 const SignUpForm = () => {
@@ -71,10 +85,9 @@ const SignUpForm = () => {
     enableReinitialize: true,
   });
   console.log(formik);
-  
+
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/users/1")
+    axios.get("http://localhost:3001/users/1")
       .then((res) => setFormValues(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -103,6 +116,23 @@ const SignUpForm = () => {
           formik={formik}
           name="nationality"
         />
+        <CheckBoxInput
+          formik={formik}
+          name="intrests"
+          checkBoxOptions={checkBoxOptions}
+        />
+        <input
+          type="checkbox"
+          id="terms"
+          name="terms"
+          value={true}
+          checked={formik.values.terms}
+          onChange={formik.handleChange}
+        />
+        <label htmlFor="terms">terms and conditions</label>
+        {formik.errors.terms && formik.touched.terms && (
+          <div className="errors">{formik.errors.terms}</div>
+        )}
         <button type="submit" disabled={!formik.isValid}>
           submit
         </button>
