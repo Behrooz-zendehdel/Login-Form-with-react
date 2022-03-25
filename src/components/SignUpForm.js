@@ -7,8 +7,8 @@ import RadioInput from "./common/RadioInput";
 import SelectInput from "./common/SelectInput";
 import CheckBoxInput from "./common/CheckBoxInput";
 const RadioOptions = [
-  { label: "مرد", value: "0" },
-  { label: "زن", value: "1" },
+  { label: "male", value: "0" },
+  { label: "female", value: "1" },
 ];
 
 const checkBoxOptions = [
@@ -17,11 +17,11 @@ const checkBoxOptions = [
 ];
 
 const selectOptions = [
-  { label: "کشور خود را انتخاب کنید", value: "" },
-  { label: "ایران", value: "IR" },
-  { label: "المان", value: "GER" },
-  { label: "امریکا", value: "USA" },
-  { label: "کانادا", value: "CND" },
+  { label: "check the nationality", value: "" },
+  { label: "iran", value: "IR" },
+  { label: "germany", value: "GER" },
+  { label: "usa", value: "USA" },
+  { label: "canada", value: "CND" },
 ];
 
 const initialValues = {
@@ -37,7 +37,8 @@ const initialValues = {
 };
 
 const onSubmit = (values) => {
-  axios.post("http://localhost:3001/users", values)
+  axios
+    .post("http://localhost:3001/users", values)
     .then((res) => console.log(res.data))
     .catch((err) => console.log(err));
   // console.log(values);
@@ -46,32 +47,32 @@ const onSubmit = (values) => {
 const validationSchema = yup.object({
   name: yup
     .string()
-    .required("وارد کردن نام کاربری الزامی میباشد")
-    .min(6, "حداقل 6 کاراکتر"),
+    .required("required is name")
+    .min(6, "required 6 characters"),
   email: yup
     .string()
-    .email("ایمیل وارد شده اشتباه میباشد")
-    .required("وارد کردن ایمیل الزامی میباشد"),
+    .email("is problem the email")
+    .required("required is eamil"),
   phoneNumber: yup
     .string()
-    .required("وارد کردن شماره تماس الزامی میباشد")
-    .matches(/^[0-9]{11}$/, "حداقل 11 کراکتر وارد کنید")
+    .required("required is phone number")
+    .matches(/^[0-9]{11}$/, "required 11 characters")
     .nullable(),
   password: yup
     .string()
-    .required("وارد کردن رمز عبور الزامی میباشد")
+    .required("required is password")
     .matches(
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-      "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+      "Must Contain 8 Characters"
     ),
   passwordConformation: yup
     .string()
-    .required("وارد کردن رمز عبور الزامی میباشد")
-    .oneOf([yup.ref("password"), null], "رمز عبور مطابقت نمیکند"),
-  gender: yup.string().required("جنسیت خود را مشخص کنید"),
-  nationality: yup.string().required("کشور خود را انتخاب نکرده اید"),
-  intrests: yup.array().min(1).required("حداقل یک مورد را انتخاب کنید"),
-  terms: yup.boolean().oneOf([true], "قوانین را میپذیرید"),
+    .required("required is password")
+    .oneOf([yup.ref("password"), null], "not found password"),
+  gender: yup.string().required("required is gender"),
+  nationality: yup.string().required("reauired is  nationality "),
+  intrests: yup.array().min(1).required("reauirede one item"),
+  terms: yup.boolean().oneOf([true], "see to terms ?"),
 });
 
 const SignUpForm = () => {
@@ -87,7 +88,8 @@ const SignUpForm = () => {
   console.log(formik);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/users/1")
+    axios
+      .get("http://localhost:3001/users/1")
       .then((res) => setFormValues(res.data))
       .catch((err) => console.log(err));
   }, []);
