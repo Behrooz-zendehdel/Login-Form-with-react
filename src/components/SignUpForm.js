@@ -52,7 +52,7 @@ const validationSchema = yup.object({
   email: yup
     .string()
     .email("is problem the email")
-    .required("required is eamil"),
+    .required("required is email"),
   phoneNumber: yup
     .string()
     .required("required is phone number")
