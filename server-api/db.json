@@ -1,14 +1,14 @@
 {
   "users": [
-        {
-          "id": 1,
-          "name": "behrooz",
-          "email": "b.zendedel71@gmail.com",
-          "phoneNumber": "09351080958",
-          "password": "behrooz@123",
-          "passwordConformation": "behrooz@123",
-          "gender": "0"
-        }
-      ]
+    {
+      "id": 1,
+      "name": "behrooz",
+      "email": "b.zendedel71@gmail.com",
+      "phoneNumber": "09351080958",
+      "password": "behrooz@123",
+      "passwordConformation": "behrooz@123",
+      "gender": "0",
+      "nationality":"IR"
     }
-    
+  ]
+}
