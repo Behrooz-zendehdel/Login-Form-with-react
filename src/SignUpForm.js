@@ -1,4 +1,6 @@
 import { useFormik } from "formik";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import * as yup from "yup";
 
 const initialValues = {
@@ -7,12 +9,13 @@ const initialValues = {
   password: "",
   phoneNumber: "",
   passwordConformation: "",
-  gender: "0",
+  gender: "",
 };
 
 const onSubmit = (values) => {
   console.log(values);
 };
+
 const validationSchema = yup.object({
   name: yup
     .string()
@@ -42,13 +45,22 @@ const validationSchema = yup.object({
 });
 
 const SignUpForm = () => {
+  const [formValues, setFormValues] = useState(null);
+
   const formik = useFormik({
-    initialValues,
+    initialValues: formValues || initialValues,
     onSubmit,
     validationSchema,
-    validateOnMount: "true", // vase button karbord dare k input true nashe button disbled mimone
+    validateOnMount: true, // vase button karbord dare k input true nashe button disbled mimone
+    enableReinitialize: true,
   });
   console.log(formik);
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/users/1")
+      .then((res) => setFormValues(res.data))
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <div>
@@ -136,7 +148,11 @@ const SignUpForm = () => {
             onChange={formik.handleChange}
           />
           <label htmlFor="1">زن</label>
+          {formik.errors.gender && formik.touched.gender && (
+            <div className="errors">{formik.errors.gender}</div>
+          )}
         </div>
+
         <button type="submit" disabled={!formik.isValid}>
           submit
         </button>
