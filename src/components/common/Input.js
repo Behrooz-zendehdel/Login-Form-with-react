@@ -1,4 +1,3 @@
-import { type } from "@testing-library/user-event/dist/type";
 
 const Input = ({ label, name, formik, type = "text" }) => {
   return (
